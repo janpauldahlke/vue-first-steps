@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <script src="vue.js"></script>
+  <title>Document</title>
+</head>
+<body>
+
+  <div> hello vue.js</div>
+
+  <div id="entry">
+      <p> {{ title }} </p>
+  </div>
+  <hr>
+  <div id="second" v-on:click="showoff">
+    <p v-once> {{ title }} </p>
+    <p> {{ say42() }} </p>
+    <p> {{ returnTitleData() }}</p>
+    <a v-bind:href="link">join the fleet</a>
+    
+    <p v-html="finishedLink"></p>
+  </div>
+  <hr>
+  <div id="excersise">
+    <h4>vue.js is pretty cool</h4>
+    <p >Hi iam {{ myName }} and i am {{ myAge }} years old</p>
+    <p>my age * 3 is {{ ageTimesThree() }}</p>
+    <p v-once>a ranndomNumber is {{ ranndomNumber() }}</p>
+    <div>
+      <!--img v-bind:src="storedImageURL"/-->
+    </div>
+    <div>
+      <input type="text" v-bind:value="myName" v-on:input="changeName">
+    </div>
+  </div>
+  
+  
+
+  <script>
+
+    new Vue({
+      el : '#excersise',
+      data : {
+        myName : 'PaulQQ',
+        myAge: '23',
+        storedImageURL : 'https://fantasyLink.com'
+      },
+      methods: {
+        ageTimesThree : function(){
+          return (parseInt(this.myAge) * 3);
+        },
+        ranndomNumber : function(){
+          return Math.floor(Math.random() * 5)
+        },
+        changeName : function(e) {
+          this.myName = e.target.value
+        }
+      }
+    })
+
+    new Vue({
+      el: '#entry',
+      data : {
+        title: '42 is a valid answer'
+      }
+   }),
+
+   new Vue({
+     el: '#second',
+     data: {
+       title: 'another witty title',
+       title_data : 'this is title data',
+       link: 'http://memory-alpha.com',
+       finishedLink : '<a href="https://dev.to">dev.to</a>'
+     },
+     methods : {
+       randomColor : function(){
+         let color = '#'
+         //console.log('inside of randomColor');
+         for(let i = 0;i<6;i++){
+           color = color + Math.floor((Math.random() * 16)).toString(16);
+         }
+         //console.log(color)
+         return color;
+       },
+       showoff : function(event){
+         this.$el.style.color = this.randomColor();
+       },
+       say42 : function(){
+         return 'hello42';
+       },
+       //taking the short way to make a function call an access data on this
+       returnTitleData: function(){
+         //overwriting title will be prevented be setting directive v-once
+         this.title = 'another title has been set';
+         return this.title
+       }
+     }
+   })
+
+  </script>
+
+</body>
+</html>

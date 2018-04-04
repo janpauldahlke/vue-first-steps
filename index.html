@@ -4,70 +4,43 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
+  <title>listening to events</title>
   <script src="vue.js"></script>
-  <title>Document</title>
 </head>
 <body>
 
-  <div> hello vue.js</div>
-
-  <div id="entry">
-      <p> {{ title }} </p>
+  <div id="app">
+    <button v-on:click="increment" v-on:mouseenter="changeColor" v-on:mouseleave="makeWhite">click here</button>
+    <p>{{counter}}</p>
+    <p v-if="screenX > 0 || screenY > 0">Coordinates are X{{screenX}}, y{{screenY}}</p>
   </div>
 
-  <div id="second" v-on:click="showoff">
-    <p v-once> {{ title }} </p>
-    <p> {{ say42() }} </p>
-    <p> {{ returnTitleData() }}</p>
-    <a v-bind:href="link">join the fleet</a>
-  
-  </div>
-  
-  
 
-  <script>
-
-    new Vue({
-      el: '#entry',
-      data : {
-        title: '42 is a valid answer'
+<script>
+  new Vue({
+    el: '#app',
+    data: {
+      counter: 0,
+      screenX : 0,
+      screenY: 0
+    },
+    methods:{
+      increment : function(e){
+        console.log(e)
+        this.counter = this.counter + 1;
+        this.screenX = e.screenX;
+        this.screenY = e.screenY;
+      },
+      changeColor : function(){
+        this.$el.style.backgroundColor = 'yellow'
+      }, 
+      makeWhite : function(){
+        this.$el.style.backgroundColor = 'white'
       }
-   }),
+    }
+  })
+</script>
 
-   new Vue({
-     el: '#second',
-     data: {
-       title: 'another witty title',
-       title_data : 'this is title data',
-       link: 'http://memory-alpha.com'
-     },
-     methods : {
-       randomColor : function(){
-         let color = '#'
-         //console.log('inside of randomColor');
-         for(let i = 0;i<6;i++){
-           color = color + Math.floor((Math.random() * 16)).toString(16);
-         }
-         //console.log(color)
-         return color;
-       },
-       showoff : function(event){
-         this.$el.style.color = this.randomColor();
-       },
-       say42 : function(){
-         return 'hello42';
-       },
-       //taking the short way to make a function call an access data on this
-       returnTitleData: function(){
-         //overwriting title will be prevented be setting directive v-once
-         this.title = 'another title has been set';
-         return this.title
-       }
-     }
-   })
-
-  </script>
 
 </body>
 </html>
