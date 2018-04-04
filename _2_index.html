@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>listening to events</title>
+  <script src="vue.js"></script>
+</head>
+<body>
+
+  <div id="app">
+    <button v-on:click="increment(4, $event)" v-on:mouseenter="changeColor" v-on:mouseleave="makeWhite">click here to ++</button>
+    <button v-on:click="counter++" v-on:mouseenter="changeColor" v-on:mouseleave="makeWhite">click here to ++</button>
+    <button v-on:click="decrement">click here to --</button>
+    <p>{{counter}}</p>
+    <p>here the counter will be multiplied in the curlies {{ counter * 10 }}</p>
+    <p>use ternary on counter {{ counter > 10 ? 'greater then 10' : 'smaller then 10' }}</p>
+    <p v-on:mousemove="updateCoords">Coordinates are X{{screenX}}, y{{screenY}}
+      <span v-on:mousemove="stopPropagation">- blind spot</span>
+      <span v-on:mousemove.stop="">- another blind spot</span>
+    </p>
+    <input type="text" v-on:keyup.enter.space.f1="alertUser" v-on:change="setText"></input>
+    <p id="showoff">showOff {{ inputText }}</p>
+  </div>
+
+  <hr>
+
+<div id="excersise">
+  <h4>{{ headline }}</h4>
+  <div>
+    <button v-on:click="showAlert">click me</button>
+  </div>
+
+  <div>
+    <input type="text" v-on:keyup="addToStoredValue"/>
+    <p>{{ storeVal }}</p>
+  </div>
+
+
+  <div>
+      <input type="text" v-on:keyup.enter="addToStoredValue2"/>
+      <p>{{ storeValue }}</p>
+    </div>
+</div>
+
+<script>
+  
+  new Vue({
+    config: {
+      keyCodes : {
+        f1 : 112
+      }
+    },
+    el: '#app',
+    data: {
+      counter: 0,
+      screenX : 0,
+      screenY: 0,
+      inputText : ''
+    },
+    methods:{
+      increment : function(arg, e){
+        console.log(e);
+        this.counter = this.counter + arg;
+      },
+      decrement : function(){
+        this.counter--;
+      },
+      changeColor : function(){
+        this.$el.querySelector('#showoff').style.backgroundColor = 'yellow'
+      }, 
+      makeWhite : function(){
+        this.$el.querySelector('#showoff').style.backgroundColor = 'white'
+      },
+      updateCoords: function(e){
+        this.screenX = e.clientX;
+        this.screenY = e.clientY;
+      },
+      stopPropagation : function(e){
+        //this could also be achieved by mousemove.stop what is mousemove stop propagation
+        //there is are stop for stopPropagation() and prevent for preventdefault available
+        e.stopPropagation();
+      },
+      alertUser : function(e){
+        //this can be achived by v-on:keyup.<keyname> v-on:keyup.enter e.g.
+        // this can be chained like this v-on:keyup.enter.space
+        // if(e.code === 'Enter'){
+        //   alert('you pressed enter');
+        // }
+        alert('you pressed ENTER')
+      },
+      setText : function(e){
+        this.inputText = e.target.value
+      }
+    }
+  })
+
+  new Vue({
+    el : '#excersise',
+    data: {
+      headline : 'excersise2',
+      storeVal: '',
+      storeValue: ''
+    },
+    methods: {
+      showAlert : function(){
+        alert('showAlert')
+      },
+      addToStoredValue: function(e){
+        this.storeVal = e.target.value
+      },
+      addToStoredValue2: function(e){
+        this.storeValue = e.target.value
+      }
+    }
+  })
+</script>
+</body>
+</html>
