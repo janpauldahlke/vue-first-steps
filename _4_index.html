@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="vue.js"></script>
+  <title>excersise</title>
+</head>
+<body>
+    <div id="app">
+      <p> name is {{ name }}</p>
+      <button @click="increment(5)">raise by 5</button>
+      <button @click="increment(1)">raise by 1</button>
+      <button @click="decrement">lower by 1</button>
+      <p>counter is {{ value }}</p>
+      <p>reached goal : {{ result }}</p>
+    </div>
+
+
+    <script>
+      new Vue({
+        el : '#app',
+        data : {
+          name : 'paul',
+          value : 0,
+          
+        },
+        watch : {
+          value : function(){
+            let instance = this;
+            setTimeout(() => {
+              instance.value = 0
+            }, 5000)
+          }
+        },
+        methods: {
+          increment : function(inc){
+              this.value = this.value + inc
+          },
+          decrement : function(){
+            this.value = this.value - 1
+          }
+        },
+        computed : {
+          result : function() {
+            return this.value === 37 ? 'done' : 'not there yet'
+          }
+        }
+      })
+    </script>
+</body>
+</html>

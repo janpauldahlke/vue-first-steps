@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Two way data binding</title>
+  <script src="vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <input type="text" v-model="name"/>
+    <p>the name is {{ name }}</p>
+    <button v-on:click="counter++">click me to +</button>
+
+    <!-- shorthands -->
+    <!-- @ replaces v-on:-->
+    <!--button @click="counter++">click me to +</button-->
+    <!-- :href="foo" : replaces v-bind-->
+    <button v-on:click="counter--">click me to -</button>
+    <button v-on:click="secondCounter++">raise second counter</button>
+    <button v-on:click="secondCounter--">lower second counter</button>
+    <p> counter : {{ counter }}</p>
+    <p> secondCounter : {{ secondCounter }}</p>
+    <!--p>{{ result }}</p-->
+    <p>{{output}}</p>
+    <p>{{ result }}</p>
+  </div>
+
+  <div id="excersise">
+    <p> current counter value {{ counter }}</p>
+    <button v-on:click="raiseCounter(1)">
+      raise by 1
+    </button>
+    <button v-on:click="raiseCounter(5)">
+      raise by 5
+    </button>
+    <p>{{ result }}</p>
+  </div>
+
+<script>
+  //i messed up the files and corresponding excersises here,
+  // new Vue({
+  //   el: '#excersise',
+  //   data: {
+  //     counter : 0
+  //   },
+  //   methods:{
+  //     raiseCounter : function(arg){
+  //       this.counter = this.counter + arg
+  //     }
+  //   },
+  //   computed : {
+  //     result : function(){
+  //       this.counter === 42 ? 'you answered the question' : 'not done yet'
+  //     }
+  //   }
+
+  // })
+    // new Vue({
+    //   el : '#app',
+    //   data : {
+    //     name : '',
+    //     counter : 0,
+    //     result: ''
+    //   },
+    //   methods: {
+    //     increment : function(){
+    //       this.counter++;
+    //       this.checkResult();
+    //     },
+    //     decrement: function(){
+    //       this.counter--;
+    //       this.checkResult();
+    //     },
+    //     checkResult : function(){
+    //       this.result = this.counter > 5 ? 'larger than 5' : 'lower than 5'
+    //     }
+    //   }
+    // })
+
+    // new Vue({
+    //   el : '#app',
+    //   data : {
+    //     name: '',
+    //     counter : 0,
+    //     secondCounter: 0,
+    //     result : ''
+    //   },
+    //   computed : {
+    //     //this does not work async but only sync
+    //     output : function() {
+    //       console.log('outputed')
+    //       return this.counter > 5 ? 'larger than 5' : 'smaller than 5' | this.secondCounter > 5 ? 'larger than 5': 'smaller than 5'
+    //     }
+    //   },
+    //   watch: {
+    //     //has to map a data property one likes to watch
+    //     counter : function(){
+    //       //resets timer after 5 seconds
+    //       //store vs object due callback
+    //       let vs = this;
+    //       setTimeout(function() {
+    //         vs.counter = 0;
+    //         vs.result = 'the counter has been reset'
+    //       }, 5000)
+    //     }
+    //   },
+    //   methods : {
+    //     result_: function() {
+    //       console.log('method')
+    //       return this.counter > 5 ? 'larger than 5' : 'smaller then 5'
+    //     }
+    //   }
+    // })
+  </script>
+
+</body>
+</html>
