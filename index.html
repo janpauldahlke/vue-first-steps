@@ -1,62 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <script src="vue.js"></script>
-  <title>css stylings</title>
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>adding styles without css classes</title>
 
-<style>
-
-  .demo{
-    width: 100px;
-    height: 100px;
-    background-color: gray;
-    display: inline-block;
-    margin: 10px;
-  }
-
-  .red {
-    background-color: red;
-  }
-
-  .green {
-    background-color: green
-  }
-
-  .yellow{
-    background-color: yellow;
-  }
-
-</style>
-<body>
-  
-  <div id="app">
-    
-    <h4>a random {{headline}}</h4>
-    <div @click="attachRed = !attachRed" v-bind:class="divClasses" class="demo"></div>
-    <div class="demo"></div>
-    <div class="demo"></div>
-
-  </div>
-  <script>
-    new Vue({
-      el: '#app',
-      data : {
-        headline : 'headlINe',
-        attachRed: false
-      },
-      computed: {
-        divClasses: function (){
-          return {
-            red: this.attachRed,
-            green: !this.attachRed
-          }
+    <style>
+        .demo{
+            width: 100px;
+            height: 100px;
+            background-color: gray;
+            display: inline-block;
+            margin: 10px;
         }
-      }
-    })
-  </script>
+    </style>
+</head>
+<body>
+    <script src="vue.js"></script>
+    <div id="app">
+        <div class="demo" :style="{backgroundColor: color}"></div>
+        <div class="demo"></div>
+        <div class="demo"></div>
+        <hr>
+        <input type="text" v-model="color">
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                color: 'gray'
+            }
+        })
+    </script>
 </body>
 </html>
