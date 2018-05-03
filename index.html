@@ -4,93 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>exercise</title>
+    <title>conditional rendering</title>
 
     <script src="vue.js"></script>
 
     <style>
-        .affected{
-            width: 100px;
-            height: 100px;
-            border: 1px solid blue;
-        }
-        .highlighted{
-            background-color: red
-        }
-        .shrinked{
-            width: 50px;
-            height: 50px;
-        }
-        .testYellow{
-            background: yellow;
-        }
-        .testGreen{
-            border : 1px solid red;
-        }
+
     </style>
 </head>
 <body>
-    
     <div id="app">
-        <button @click="startEffect"> Start Effect</button>
-        <button @click="stopEffect"> Stop Effect</button>
-        <div class ="affected" :class="divClasses"></div>
-        <div class="noClass" :class="addCssClasses">got no class</div>
-        <p :class="name">enter a class name</p>
-        <input type="text" />
-
+        <p>{{foobar.title}}</p>
+        <button @click="visible"> switch show argument</button>
+        <p v-if="show">can you see this one?</p>
+        <p v-else>but you will see this one instead</p>
+        <p v-show="show">and can you see this one? its hidden with v-show</p>
+        <template v-if="show"><p>inside o template</p></template>
     </div>
 
     <script>
         new Vue({
             el: '#app',
             data : {
-                foo: 'fara',
-                highlighted: null,
-                shrinked: null,
-                testYellow: null,
-                testGreen: null,
-                name: '',
+                foobar : {
+                    title: 'foo',
+                    player: 'fara'
+                },
+                show : true
             },
-            methods : {
-                startEffect : function() {
-                    console.log('button+')
-                    if(this.highlighted == null && this.shrinked == null){
-                        this.highlighted = true;
-                        this.shrinked = !this.highlighted;
-                    }
-                    
-                    let that = this;
-                    
-                    //how do one stops the effect with clearInterval()
-                    setInterval(function(){
-                       that.highlighted = !that.highlighted;
-                       that.shrinked = that.highlighted;
-                    }, 1000)
-                },
-                stopEffect: function(){
-                    console.log('stoppimng',this)
-                    this.highlighted = false;
-                    this.shrinked = false;
-                    clearInterval()
-                },
-            },
-            computed: {
-                divClasses: function() {
-                    return {
-                        highlighted : !this.highlighted,
-                        shrinked:  this.highlighted
-                    }
-                },
-                addCssClasses : function(){
-                    return  {
-                        testYellow : true,
-                        testGreen : true
-                    }
+            methods:{
+                visible : function(){
+                    console.log('show', !this.show)
+                    this.show = !this.show
                 }
-            },
+            }
         })
     </script>
-    
 </body>
 </html>

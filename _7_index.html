@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>exercise</title>
+
+    <script src="vue.js"></script>
+
+    <style>
+        .affected{
+            width: 100px;
+            height: 100px;
+            border: 1px solid blue;
+        }
+        .highlighted{
+            background-color: red
+        }
+        .shrinked{
+            width: 50px;
+            height: 50px;
+        }
+        .testYellow{
+            background: yellow;
+        }
+        .testGreen{
+            border : 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="app">
+        <button @click="startEffect"> Start Effect</button>
+        <button @click="stopEffect"> Stop Effect</button>
+        <div class ="affected" :class="divClasses"></div>
+        <div class="noClass" :class="addCssClasses">got no class</div>
+        <p :class="name">enter a class name</p>
+        <input type="text" />
+
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data : {
+                foo: 'fara',
+                highlighted: null,
+                shrinked: null,
+                testYellow: null,
+                testGreen: null,
+                name: '',
+            },
+            methods : {
+                startEffect : function() {
+                    console.log('button+')
+                    if(this.highlighted == null && this.shrinked == null){
+                        this.highlighted = true;
+                        this.shrinked = !this.highlighted;
+                    }
+                    
+                    let that = this;
+                    
+                    //how do one stops the effect with clearInterval()
+                    setInterval(function(){
+                       that.highlighted = !that.highlighted;
+                       that.shrinked = that.highlighted;
+                    }, 1000)
+                },
+                stopEffect: function(){
+                    console.log('stoppimng',this)
+                    this.highlighted = false;
+                    this.shrinked = false;
+                    clearInterval()
+                },
+            },
+            computed: {
+                divClasses: function() {
+                    return {
+                        highlighted : !this.highlighted,
+                        shrinked:  this.highlighted
+                    }
+                },
+                addCssClasses : function(){
+                    return  {
+                        testYellow : true,
+                        testGreen : true
+                    }
+                }
+            },
+        })
+    </script>
+    
+</body>
+</html>
