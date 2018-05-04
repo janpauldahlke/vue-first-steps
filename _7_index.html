@@ -53,26 +53,41 @@
                 name: '',
             },
             methods : {
-                startEffect : function() {
-                    console.log('button+')
-                    if(this.highlighted == null && this.shrinked == null){
-                        this.highlighted = true;
-                        this.shrinked = !this.highlighted;
-                    }
-                    
-                    let that = this;
-                    
-                    //how do one stops the effect with clearInterval()
-                    setInterval(function(){
-                       that.highlighted = !that.highlighted;
-                       that.shrinked = that.highlighted;
-                    }, 1000)
+                startEffect = () => {
+                        console.log('button+')
+                        if(this.highlighted == null && this.shrinked == null){
+                            this.highlighted = true;
+                            this.shrinked = !this.highlighted;
+                        }
+                        
+                        
+                        
+                        //how do one stops the effect with clearInterval()
+                        interval = () => setInterval(function(){
+                        this.highlighted = !this.highlighted;
+                        this.shrinked = this.highlighted;
+                        }, 1000)
                 },
+                // startEffect : function() {
+                //     console.log('button+')
+                //     if(this.highlighted == null && this.shrinked == null){
+                //         this.highlighted = true;
+                //         this.shrinked = !this.highlighted;
+                //     }
+                    
+                //     let that = this;
+                    
+                //     //how do one stops the effect with clearInterval()
+                //     var interval = setInterval(function(){
+                //        that.highlighted = !that.highlighted;
+                //        that.shrinked = that.highlighted;
+                //     }, 1000)
+                // },
                 stopEffect: function(){
                     console.log('stoppimng',this)
                     this.highlighted = false;
                     this.shrinked = false;
-                    clearInterval()
+                    clearInterval(this.startEffect.interval)
                 },
             },
             computed: {

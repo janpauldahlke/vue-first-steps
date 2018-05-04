@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>v-for</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.min.js"></script>
+    <script src="vue.js"></script>
+</head>
+<body>
+
+    <div id="app">
+        <ul>
+            <li v-for="hero in heroes">{{ hero }}</li>
+            <button @click="heroes.push('hero'+counter++)">add hero</button>
+        </ul>
+        <ul>
+            <li v-for="person in persons">{{ person.name }}</li>
+        </ul>
+        <ul>
+            <li v-for="(person, i) in heroes" :key="person"> {{i}} ({{person}})</li>
+        </ul>
+        <ul v-if="show">
+            <li v-for="[key, element] in zipHeroes">
+                <h5>{{ key }}</h5>
+                <span>{{ element.name }}</span>
+                <span>{{ element.age }}</span>
+            </li>
+        </ul>
+        <ul>
+            <li v-for="n in 10">{{ n }}</li>
+        </ul>
+        <template v-for="person in persons">
+            <div v-for="(value, key, index) in person">{{key}} : {{value}} ({{index}})</div>
+        </template>
+    </div>
+    <script>
+
+        new Vue({
+            el: '#app',
+            data: {
+                heroes: ['Spiderman', 'Venom', 'Spawn'],
+                persons: [
+                    {name: 'peter', age: 17},
+                    {name: 'eddi', age: 25},
+                    {name: 'al', age: 38}
+                ],
+                persons1: {
+                   'spider': {name: 'peter', age: 17},
+                    'venom': {name: 'eddi', age: 25},
+                    'spwan': {name: 'al', age: 38}
+                },
+                show: false,
+                counter: 0
+            },
+            computed: {
+                zipHeroes() {
+                    let result = _.zip(this.heroes, _.values(this.persons));
+                    console.log(result)
+                    return  result
+                }
+            },
+        })
+
+        
+    </script>
+</body>
+</html>

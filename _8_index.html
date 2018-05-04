@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>conditional rendering</title>
+
+    <script src="vue.js"></script>
+
+    <style>
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <p>{{foobar.title}}</p>
+        <button @click="visible"> switch show argument</button>
+        <p v-if="show">can you see this one?</p>
+        <p v-else>but you will see this one instead</p>
+        <p v-show="show">and can you see this one? its hidden with v-show</p>
+        <template v-if="show"><p>inside o template</p></template>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data : {
+                foobar : {
+                    title: 'foo',
+                    player: 'fara'
+                },
+                show : true
+            },
+            methods:{
+                visible : function(){
+                    console.log('show', !this.show)
+                    this.show = !this.show
+                }
+            }
+        })
+    </script>
+</body>
+</html>
