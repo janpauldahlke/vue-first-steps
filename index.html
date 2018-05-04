@@ -1,65 +1,121 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>v-for excersises</title>
-
+    <title>Monster Slayer</title>
     <script src="vue.js"></script>
+    <link rel="stylesheet" href="css/foundation.min.css">
+    <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
-    <div id="app">
-        <h5>{{  message.topic }}</h5>
-        <hr >
-        <div>1. hook up a button to toggle the display of two paragraps use both, v-if and v-show</div>
-        <button @click="toggleDisplay">toggle display</button>
-        <p>unaffected p</p>
-        <p v-if="show">1st  using v-if</p>
-        <p v-show="show">2nd p using v-show</p>
-        <hr >
-        <div>2. output an ulnof array elements of yiour choicen also nprint the index of the element</div>
-        <ul>
-            <li v-for="(player, index) in players">{{index}}: {{player}}</li>
-        </ul>
-        <hr>
-        <div>3. print all key value pairs of a given object, also print the index of each item</div>
-        <ul><li v-for="(value, key, index) of game">{{index}}:  {{key}} - {{value}}</li></ul>
-        <hr>
-        <div>4. print the values of given object and use a nested loop for the array</div>
-        <ul>
-            <li v-for="(value, key, index) in testobject">
-                
-                <div v-if="value instanceof Array">
-                    <p v-for="val in value">{{ val }}</p>
+<div id="app">
+    <section class="row">
+        <div class="small-6 columns">
+            <h1 class="text-center">YOU</h1>
+            <div class="healthbar">
+                <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;" :style="{width: player.hp+'%'}">
+                    {{ player.hp}}
                 </div>
-                <div v-else>{{ value }}</div>
+            </div>
+        </div>
+        <div class="small-6 columns">
+            <h1 class="text-center">MONSTER</h1>
+            <div class="healthbar">
+                <div class="healthbar text-center" style="background-color: green; margin: 0; color: white" :style="{width: monster.hp+'%'}">
+                    {{ monster.hp }}
+                </div>
+            </div>
+        </div>
+    </section>
+    <section v-if="!activeGame" class="row controls">
+        <div class="small-12 columns">
+            <button @click="newGame" id="start-game">START NEW GAME</button>
+        </div>
+    </section>
+    <section v-if="activeGame" class="row controls">
+        <div class="small-12 columns">
+            <button @click="attack" id="attack">ATTACK</button>
+            <button @click="specialAtk" id="special-attack">SPECIAL ATTACK</button>
+            <button @click="heal" id="heal">HEAL</button>
+            <button @click="newGame"id="give-up">GIVE UP</button>
+        </div>
+    </section>
+    <section class="row log">
+        <div class="small-12 columns">
+            <ul>
+                <li v-for="(report, index) in reports" :style="{backgroundColor :  index % 2 === 1 ? 'red' : 'green' }">
+                    {{ report }}
+                </li>
+            </ul>
+        </div>
+    </section>
+</div>
+
+
+<script>
+
+    new Vue({
+        el: '#app',
+        data: {
+            reports : [],
+            player : {
+                hp: 0
+            },
+            monster: {
+                hp: 0
+            },
+            activeGame: false
+        },
+        methods: {
+            attack(){
+                let dmgAtMonster = Math.floor(Math.random() * 10 +1);
+                let dmgAtPlayer = Math.floor(Math.random() * 8 + 1);
+                this.monster.hp = this.monster.hp - dmgAtMonster;
+                this.reports.push('Player hits Monster for '+dmgAtMonster)
+                this.player.hp = this.player.hp - dmgAtPlayer;
+                this.reports.push('Monster hits Player for '+dmgAtPlayer)
                 
-            </li>
-        </ul>
-
-    </div>
-
-    <script>
-        new Vue({
-            el: '#app',
-            data: {
-                players: ['PlayerRed', 'PlayerBlue', 'PlayerGreen'],
-                game: {title: 'DOOM', year: 1992, USK: 18, singlePlayer: true},
-                testobject: {
-                    name: 'Testobject', data: [1.22, 3.45, 6.12, 2.77]
-                },
-                message : {
-                    topic : 'v-for excersise'
-                },
-                show: true
             },
-            methods: {
-                toggleDisplay() {
-                    this.show = !this.show
+            specialAtk(){
+                let dmgAtMonster = Math.floor(Math.random() * 20 +1);
+                let dmgAtPlayer = Math.floor(Math.random() * 8 + 1);
+                this.monster.hp = this.monster.hp - dmgAtMonster;
+                this.reports.push('Player hits Monster for '+dmgAtMonster)
+                this.player.hp = this.player.hp - dmgAtPlayer;
+                this.reports.push('Monster hits Player for '+dmgAtPlayer)
+                this.flagP = this.flagP -25
+            },
+            heal(){
+                let healed = Math.floor(Math.random() * 10 + 5);
+                let dmgAtPlayer = Math.floor(Math.random() * 8 + 1);
+                this.player.hp = this.player.hp + healed;
+                this.reports.push('Player heals Player for '+healed)
+                this.reports.push('Monster hits Player for '+dmgAtPlayer)
+            },
+            newGame(){
+                this.player.hp = 100;
+                this.monster.hp = 100;
+                this.reports = [];
+                this.activeGame = !this.activeGame;
+            }
+        },
+        watch: {
+            'player.hp' : function(){
+                if(this.player.hp <= 0){
+                    console.log('player lost')
+                    alert('the monster won, you can play again')
                 }
+                
             },
-        })
-    </script>
+            'monster.hp' : function(){
+                if(this.monster.hp <= 0){
+                    console.log('mo lost')
+                    alert('the player won, be ready for a new adventure')
+                    this.newGame()
+                }
+            }
+        },
+        
+    })
+</script>
 </body>
 </html>
