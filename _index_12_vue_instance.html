@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue instance</title>
+
+  <script src="vue.js"></script>
+</head>
+
+<body>
+  <div id="app1">
+    <h5>{{ title }}</h5>
+    <button ref="myButton" @click="show">{{ !showParagraph ? 'Show ' : 'Unshow '}} Paragraph</button>
+    <p v-if="showParagraph">this is not always visible</p>
+  </div>
+
+  <hr>
+
+  <div id="app2">
+    <h5>{{ title }}</h5>
+    <button @click="onChange">change something in instance 1</button>
+
+
+    <!--hello></hello>
+    <hello></hello-->
+  </div>
+  <hr>
+
+  <div id="app3">
+  </div>
+</body>
+
+<script>
+
+
+  // let comp1 = Vue.component('hello', {
+  //   template: '<h1>Hello World</h1>',
+  // });
+
+  const data = {
+    title: 'vue instance',
+    showParagraph: true
+  }
+
+  let vm1 = new Vue({
+    //el: '#app1',
+    data: data,
+    methods: {
+      show() {
+        this.showParagraph = !this.showParagraph
+        this.updateTitle('Vue Instance (Update)')
+        console.log('refs', this.$refs)
+      },
+      updateTitle(title) {
+        this.title = title
+      }
+    },
+    computed: {
+      lowerCaseTitle: function () {
+        return this.title.toLowerCase();
+      }
+    },
+    watch: {
+      title(value) {
+        alert(`Title change, new value: ${value}`)
+      }
+    }
+  })
+
+  //this works!!
+  vm1.$mount('#app1')
+
+  // setTimeout(() => {
+  //   vm1.$refs.myButton.innerText = 'changed by Timer'
+  //   vm1.show()
+  // }, 5000)
+
+  vm1.addProperty = 'add foo'
+  //  Vue.set(vm1, 'data', {price : 3}) // not working
+  //vm1.$bset(this.$data, 'foo', 'bar')
+  console.log(vm1)
+  console.log('data truthy?', vm1.$data === data)
+
+  let buttonText = vm1.$refs.myButton.innerText
+  console.log(buttonText);
+
+  let pText = document.querySelector('#app1 > p').innerText
+  console.log(pText)
+
+  //its possible to overwrite via refs like this
+  vm1.$refs.myButton.innerText = 'overwritten by $refs'
+
+  let vm2 = new Vue({
+    el: '#app2',
+    data: {
+      title: 'the second instance'
+    },
+    methods: {
+      onChange() {
+        vm1.title = 'a changed title'
+      }
+    }
+  })
+
+  let vm3 = new Vue({
+    template: `<h1>hello</h1>`,
+  })
+
+vm3.$mount('#app3')
+//there is even more vanilla magic
+// vm3.$mount() // mounted to vue but not into the DOM
+// document.getElementById('app3').appendChild(vm3.$el); // append the element to the DOM
+
+// Vue.component('hello', {
+//   template : `<div>Hello World</div>`
+// })
+
+</script>
+
+</html>

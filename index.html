@@ -1,71 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Monster Slayer Kurs</title>
-    <script src="https://npmcdn.com/vue/dist/vue.js"></script>
-    <link rel="stylesheet" href="monsterSlayer/css/foundation.min.css">
-    <link rel="stylesheet" href="monsterSlayer/css/app.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>lifecycle test</title>
+  <script src="vue.js"></script>
 </head>
 <body>
-<div id="app">
-    <section class="row">
-        <div class="small-6 columns">
-            <h1 class="text-center">YOU</h1>
-            <div class="healthbar">
-                <div 
-                    class="healthbar text-center"
-                    style="background-color: green; margin: 0; color: white;"
-                    :style="{width: playerHP + '%'}"
-                    >
-                    {{ playerHP }}
-                </div>
-            </div>
-        </div>
-        <div class="small-6 columns">
-            <h1 class="text-center">MONSTER</h1>
-            <div class="healthbar">
-                <div
-                    class="healthbar text-center"
-                    style="background-color: green; margin: 0; color: white;"
-                    :style="{width: monsterHP + '%'}"
-                    >
-                    {{ monsterHP }}
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="row controls" v-if="!gameIsRunning">
-        <div class="small-12 columns">
-            <button
-                id="start-game"
-                @click="startGame"
-                >
-                START NEW GAME</button>
-        </div>
-    </section>
-    <section class="row controls" v-else>
-        <div class="small-12 columns">
-            <button id="attack" @click="attack">ATTACK</button>
-            <button id="special-attack" @click="specialAttack"  >SPECIAL ATTACK</button>
-            <button id="heal" @click="heal">HEAL</button>
-            <button 
-                id="give-up"
-                @click="endGame"
-                >GIVE UP</button>
-        </div>
-    </section>
-    <section class="row log" v-if="turns.length > 0">
-        <div class="small-12 columns">
-            <ul>
-                <li 
-                    v-for="turn in turns"
-                    :class="{'player-turn': turn.isPlayer, 'monster-turn': !turn.isPlayer}">
-                    {{ turn.text }}
-                </li>
-            </ul>
-        </div>
-    </section>
-</div>
-<script src="monsterSlayer/js/app.js"></script>
+  <div id="app">
+    <h1>{{ title  }}</h1>
+  </div>
 </body>
+
+<script>
+
+  new Vue({
+    el: '#app',
+    data: {
+      title: 'vue lifecycle hooks'
+    },
+    beforeCreate: function() {
+      console.log('beforeCreated', Date.now())
+    },
+    created: function() {
+      console.log('created', Date.now())
+    },
+    beforeMount: function() {
+      console.log('beforeMount', Date.now())
+    },
+    mounted: function() {
+      console.log('mounted', Date.now())
+    },
+    beforeDestroy: function() {
+      console.log('beforeDestroyed', Date.now())
+    },
+    destroyed: function() {
+      console.log('destroyed', Date.now())
+    }
+  })
+</script>
 </html>
