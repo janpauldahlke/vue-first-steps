@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Monster Slayer</title>
-    <script src="vue.js"></script>
-    <link rel="stylesheet" href="css/foundation.min.css">
-    <link rel="stylesheet" href="css/app.css">
+    <title>Monster Slayer Kurs</title>
+    <script src="https://npmcdn.com/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="monsterSlayer/css/foundation.min.css">
+    <link rel="stylesheet" href="monsterSlayer/css/app.css">
 </head>
 <body>
 <div id="app">
@@ -12,110 +12,58 @@
         <div class="small-6 columns">
             <h1 class="text-center">YOU</h1>
             <div class="healthbar">
-                <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;" :style="{width: player.hp+'%'}">
-                    {{ player.hp}}
+                <div 
+                    class="healthbar text-center"
+                    style="background-color: green; margin: 0; color: white;"
+                    :style="{width: playerHP + '%'}"
+                    >
+                    {{ playerHP }}
                 </div>
             </div>
         </div>
         <div class="small-6 columns">
             <h1 class="text-center">MONSTER</h1>
             <div class="healthbar">
-                <div class="healthbar text-center" style="background-color: green; margin: 0; color: white" :style="{width: monster.hp+'%'}">
-                    {{ monster.hp }}
+                <div
+                    class="healthbar text-center"
+                    style="background-color: green; margin: 0; color: white;"
+                    :style="{width: monsterHP + '%'}"
+                    >
+                    {{ monsterHP }}
                 </div>
             </div>
         </div>
     </section>
-    <section v-if="!activeGame" class="row controls">
+    <section class="row controls" v-if="!gameIsRunning">
         <div class="small-12 columns">
-            <button @click="newGame" id="start-game">START NEW GAME</button>
+            <button
+                id="start-game"
+                @click="startGame"
+                >
+                START NEW GAME</button>
         </div>
     </section>
-    <section v-if="activeGame" class="row controls">
+    <section class="row controls" v-else>
         <div class="small-12 columns">
-            <button @click="attack" id="attack">ATTACK</button>
-            <button @click="specialAtk" id="special-attack">SPECIAL ATTACK</button>
-            <button @click="heal" id="heal">HEAL</button>
-            <button @click="newGame"id="give-up">GIVE UP</button>
+            <button id="attack" @click="attack">ATTACK</button>
+            <button id="special-attack" @click="specialAttack"  >SPECIAL ATTACK</button>
+            <button id="heal" @click="heal">HEAL</button>
+            <button 
+                id="give-up"
+                @click="endGame"
+                >GIVE UP</button>
         </div>
     </section>
     <section class="row log">
         <div class="small-12 columns">
             <ul>
-                <li v-for="(report, index) in reports" :style="{backgroundColor :  index % 2 === 1 ? 'red' : 'green' }">
-                    {{ report }}
+                <li>
+
                 </li>
             </ul>
         </div>
     </section>
 </div>
-
-
-<script>
-
-    new Vue({
-        el: '#app',
-        data: {
-            reports : [],
-            player : {
-                hp: 0
-            },
-            monster: {
-                hp: 0
-            },
-            activeGame: false
-        },
-        methods: {
-            attack(){
-                let dmgAtMonster = Math.floor(Math.random() * 10 +1);
-                let dmgAtPlayer = Math.floor(Math.random() * 8 + 1);
-                this.monster.hp = this.monster.hp - dmgAtMonster;
-                this.reports.push('Player hits Monster for '+dmgAtMonster)
-                this.player.hp = this.player.hp - dmgAtPlayer;
-                this.reports.push('Monster hits Player for '+dmgAtPlayer)
-                
-            },
-            specialAtk(){
-                let dmgAtMonster = Math.floor(Math.random() * 20 +1);
-                let dmgAtPlayer = Math.floor(Math.random() * 8 + 1);
-                this.monster.hp = this.monster.hp - dmgAtMonster;
-                this.reports.push('Player hits Monster for '+dmgAtMonster)
-                this.player.hp = this.player.hp - dmgAtPlayer;
-                this.reports.push('Monster hits Player for '+dmgAtPlayer)
-                this.flagP = this.flagP -25
-            },
-            heal(){
-                let healed = Math.floor(Math.random() * 10 + 5);
-                let dmgAtPlayer = Math.floor(Math.random() * 8 + 1);
-                this.player.hp = this.player.hp + healed;
-                this.reports.push('Player heals Player for '+healed)
-                this.reports.push('Monster hits Player for '+dmgAtPlayer)
-            },
-            newGame(){
-                this.player.hp = 100;
-                this.monster.hp = 100;
-                this.reports = [];
-                this.activeGame = !this.activeGame;
-            }
-        },
-        watch: {
-            'player.hp' : function(){
-                if(this.player.hp <= 0){
-                    console.log('player lost')
-                    alert('the monster won, you can play again')
-                }
-                
-            },
-            'monster.hp' : function(){
-                if(this.monster.hp <= 0){
-                    console.log('mo lost')
-                    alert('the player won, be ready for a new adventure')
-                    this.newGame()
-                }
-            }
-        },
-        
-    })
-</script>
+<script src="monsterSlayer/js/app.js"></script>
 </body>
 </html>
