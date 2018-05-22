@@ -9,7 +9,9 @@
 </head>
 <body>
   <div id="app">
-    <h1>{{ title  }}</h1>
+    <h1>{{ title }}</h1>
+    <button @click="title = 'Changed Title'">change somethink</button>
+    <button @click="destroy">destroy compontent</button>
   </div>
 </body>
 
@@ -18,25 +20,40 @@
   new Vue({
     el: '#app',
     data: {
-      title: 'vue lifecycle hooks'
+      title: 'vue lifecycle hooks',
+      timeInMS: Date.now()
+    },
+    methods: {
+      destroy(){
+        this.$destroy() //  vue destroy = instance.$destroy
+      }
     },
     beforeCreate: function() {
-      console.log('beforeCreated', Date.now())
+      console.log('beforeCreated', Date.now() - this.timeInMS)
     },
     created: function() {
-      console.log('created', Date.now())
+      console.log('created', Date.now() - this.timeInMS)
     },
     beforeMount: function() {
-      console.log('beforeMount', Date.now())
+      console.log('beforeMount', Date.now() - this.timeInMS)
+    },
+    beforeUpdate(){
+      //data in has changed?
+      //leets into rerender the DOM
+      console.log('beforeUpdate', new Date() - this.timeInMS, this)
+    },
+    updated(){
+      //after Data has changed
+      console.log('updated', new Date() - this.timeInMS)
     },
     mounted: function() {
-      console.log('mounted', Date.now())
+      console.log('mounted', Date.now() - this.timeInMS)
     },
     beforeDestroy: function() {
-      console.log('beforeDestroyed', Date.now())
+      console.log('beforeDestroyed', Date.now() - this.timeInMS)
     },
     destroyed: function() {
-      console.log('destroyed', Date.now())
+      console.log('destroyed', Date.now() - this.timeInMS)
     }
   })
 </script>
